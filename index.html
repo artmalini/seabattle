@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
+	<title>Document</title>	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="js/my.js"></script>
+<style>
+html {
+	padding: 0;
+	margin: 0;
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
+.back {
+	background-color: antiquewhite;
+	/* min-height: 100%; */
+}
+.base-tmp {
+	/* width: 1500px; */
+	height: 100%;
+	background-color: #a1a4b0;
+	margin-left: 10%;
+}
+.wrap {
+   margin-left: 273px;
+    margin-right: 279px;
+   perspective: 646px;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	/* width: 100%; */
+	/* border: 1px solid #ddd; */
+	transform-style: preserve-3d;
+	transform: rotateX(57deg);
+}
+
+th, td {
+	/* text-align: left; */
+	border: 1px solid #b4b4ff;
+	padding: 0;
+}
+.ships-dock {
+	position: relative;
+	width: 50px;
+ 	height: 50px;
+}
+tr:nth-child(even) { 
+	background-color: #1768cf;
+}
+ #draggable, #draggable2 {
+ 	    background-color: brown;
+ 	width: 50px;
+ 	height: 100px;
+ 	padding: 0;
+ 	position: absolute;
+ } 
+</style>
+<script>
+	$(document).ready(function () {
+		//$( "#draggable2" ).draggable({ revert: "invalid" });
+	});
+</script>
+</head>
+</head>
+<body>
+
+<div class="back">
+	<div class="base-tmp">
+		<div>
+			<div class="wrap">
+			<table>
+				<tbody>
+					<tr>
+					  <td class="has_ship" data-nbr="1">
+					  	<div class="ships-dock">
+					  		<div id="draggable2" class="ui-widget-content"></div>
+					  	</div>
+					</td>
+					  <td data-nbr="2"><div class="ships-dock"></div></td>
+					  <td data-nbr="3"><div class="ships-dock"></div></td>
+					  <td data-nbr="4"><div class="ships-dock"></div></td>
+					  <td data-nbr="5"><div class="ships-dock"></div></td>
+					  <td data-nbr="6"><div class="ships-dock"></div></td>
+					  <td data-nbr="7"><div class="ships-dock"></div></td>
+					  <td data-nbr="8"><div class="ships-dock"></div></td>
+					  <td data-nbr="9"><div class="ships-dock"></div></td>
+					  <td data-nbr="10"><div class="ships-dock"></div></td>
+					</tr>
+					<tr>
+					  <td data-nbr="11"><div class="ships-dock"></div></td>
+					  <td data-nbr="12"><div class="ships-dock"></div></td>
+					  <td data-nbr="13"><div class="ships-dock"></div></td>
+					  <td data-nbr="14"><div class="ships-dock"></div></td>
+					  <td data-nbr="15"><div class="ships-dock"></div></td>
+					  <td data-nbr="16"><div class="ships-dock"></div></td>
+					  <td data-nbr="17"><div class="ships-dock"></div></td>
+					  <td data-nbr="18"><div class="ships-dock"></div></td>
+					  <td data-nbr="19"><div class="ships-dock"></div></td>
+					  <td data-nbr="20"><div class="ships-dock"></div></td>
+					</tr>
+					<tr>
+					  <td data-nbr="21"><div class="ships-dock"></div></td>
+					  <td data-nbr="22"><div class="ships-dock"></div></td>
+					  <td data-nbr="23"><div class="ships-dock"></div></td>
+					  <td data-nbr="24"><div class="ships-dock"></div></td>
+					  <td data-nbr="25"><div class="ships-dock"></div></td>
+					  <td data-nbr="26"><div class="ships-dock"></div></td>
+					  <td data-nbr="27"><div class="ships-dock"></div></td>
+					  <td data-nbr="28"><div class="ships-dock"></div></td>
+					  <td data-nbr="29"><div class="ships-dock"></div></td>
+					  <td data-nbr="30"><div class="ships-dock"></div></td>
+					</tr>
+					<tr>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					</tr>
+					<tr>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					</tr>
+					<tr>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					</tr>
+					<tr>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					</tr>
+					<tr>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					</tr>
+					<tr>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					</tr>
+					<tr>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					  <td><div class="ships-dock"></div></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
