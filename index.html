@@ -21,14 +21,14 @@ body {
 	/* min-height: 100%; */
 }
 .base-tmp {
-	/* width: 1500px; */
+	width: 1500px;
 	height: 100%;
 	background-color: #a1a4b0;
 	margin-left: 10%;
 }
 .wrap {
-   margin-left: 273px;
-    margin-right: 279px;
+   margin-left: 295px;
+   margin-right: 279px;
    perspective: 646px;
 }
 table {
@@ -48,24 +48,32 @@ th, td {
 .ships-dock {
 	position: relative;
 	width: 50px;
- 	height: 50px;
+	height: 50px;
 }
 tr:nth-child(even) { 
 	background-color: #1768cf;
 }
- #draggable, #draggable2 {
+ .draggable, .draggable2 {
  	    background-color: brown;
- 	width: 50px;
- 	height: 100px;
- 	padding: 0;
- 	position: absolute;
+ 	    width: 50px;
+ 	    height: 100px;
+ 	    padding: 0;
+ 	    position: absolute;
  } 
 </style>
-<script>
-	$(document).ready(function () {
-		//$( "#draggable2" ).draggable({ revert: "invalid" });
-	});
-</script>
+  <script>
+    // DragManager.onDragCancel = function(dragObject) {
+    //   dragObject.avatar.rollback();
+    // };
+
+    DragManager.onDragEnd = function(dragObject, dropElem) {
+      //dragObject.elem.style.display = 'none';
+      dropElem.classList.add('ok');
+     // setTimeout(function() {
+     //   dropElem.classList.remove('computer-smile');
+     // }, 200);
+    };
+  </script>
 </head>
 </head>
 <body>
@@ -77,11 +85,10 @@ tr:nth-child(even) {
 			<table>
 				<tbody>
 					<tr>
-					  <td class="has_ship" data-nbr="1">
-					  	<div class="ships-dock">
-					  		<div id="draggable2" class="ui-widget-content"></div>
+					  <td class="has_ship yep" data-nbr="1">
+					  	<div class="ships-dock" data-pos_y="1" data-pos_x="1"><div class="draggable" data-pos="vertical" data-size="2"></div>
 					  	</div>
-					</td>
+					  </td>
 					  <td data-nbr="2"><div class="ships-dock"></div></td>
 					  <td data-nbr="3"><div class="ships-dock"></div></td>
 					  <td data-nbr="4"><div class="ships-dock"></div></td>
@@ -93,7 +100,9 @@ tr:nth-child(even) {
 					  <td data-nbr="10"><div class="ships-dock"></div></td>
 					</tr>
 					<tr>
-					  <td data-nbr="11"><div class="ships-dock"></div></td>
+					  <td class="has_ship yep" data-nbr="11">
+					  	<div class="ships-dock" data-pos_y="1" data-pos_x="2"></div>
+					  </td>
 					  <td data-nbr="12"><div class="ships-dock"></div></td>
 					  <td data-nbr="13"><div class="ships-dock"></div></td>
 					  <td data-nbr="14"><div class="ships-dock"></div></td>
@@ -172,7 +181,10 @@ tr:nth-child(even) {
 					  <td><div class="ships-dock"></div></td>
 					  <td><div class="ships-dock"></div></td>
 					  <td><div class="ships-dock"></div></td>
-					  <td><div class="ships-dock"></div></td>
+					  <td class="has_ship yep" data-nbr="1">
+					  	<div class="ships-dock" data-pos_y="1" data-pos_x="1"><div class="draggable" data-pos="vertical" data-size="2"></div>
+					  	</div>
+					  </td>
 					  <td><div class="ships-dock"></div></td>
 					  <td><div class="ships-dock"></div></td>
 					</tr>
@@ -184,7 +196,9 @@ tr:nth-child(even) {
 					  <td><div class="ships-dock"></div></td>
 					  <td><div class="ships-dock"></div></td>
 					  <td><div class="ships-dock"></div></td>
-					  <td><div class="ships-dock"></div></td>
+					  <td class="has_ship yep data-nbr="11">
+					  	<div class="ships-dock" data-pos_y="1" data-pos_x="2"></div>
+					  </td>
 					  <td><div class="ships-dock"></div></td>
 					  <td><div class="ships-dock"></div></td>
 					</tr>
