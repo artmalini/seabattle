@@ -108,7 +108,7 @@ margin: auto;
 </style>
 </head>
 </head>
-<body class="player_turn">
+<body class="enemy_turn">
 <?php
 $pl_game = $_SESSION['player'];
 $pl_enemy = $_SESSION['enemy'];
@@ -122,7 +122,7 @@ $pl_enemy = $_SESSION['enemy'];
 				$nbr = 1;
 				$find = 0;
 				$dragg = 1;
-				$mas = $pl_enemy->getShips();
+				$mas = $pl_game->getShips();
 
 				echo '<table>
 					<tbody>';
@@ -157,7 +157,7 @@ $pl_enemy = $_SESSION['enemy'];
 			<div class="next_close"></div>
 		<center>
 			<h2>You choose target coordinats!</h2>
-				<input type="button" class="attack_action" value="Attack!">
+				<input type="button" class="next_action" value="Attack!">
 				<input type="button" class="next_cancel" value="Cancel">
 		</center>
 		</div>
@@ -170,7 +170,7 @@ $pl_enemy = $_SESSION['enemy'];
 
 //echo $pl_game->totalShips() . '</br>';
 
-print_r($pl_enemy->getShips());
+print_r($pl_game->getShips());
 //$mas = $pl_enemy->getShips();
 
 //print_r($mas);
