@@ -11,6 +11,9 @@ class Destroyer extends Ship {
 		$ship['type'] = $type['type'];
 		$ship['lives'] = self::LIVES;
 		$ship['pos'] = $type['pos'];
+		$ship['nbr'] = $type['nbr'];
+		$ship['stay'] = $type['stay'];
+		$ship['size'] = $type['size'];
 		parent::__construct($ship);
 	}
 

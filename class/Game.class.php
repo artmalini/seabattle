@@ -3,11 +3,13 @@
 class Game {
 	private $title;
 	private $ships = array();
+	//private $enemy_armada = array();
 	private $nbr = 0;
 	const SEA = 'Sea Battle';
 	
 	public function __construct() {
 		$this->title = self::SEA;
+		//$this->enemy_armada = new Enemy($mas);
 	}
 	public function getShips() {
 		return $this->ships;
