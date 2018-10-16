@@ -6,6 +6,8 @@
 	if (session_status() === PHP_SESSION_NONE) {
 		session_start(); 
 	}
+	unset($_SESSION['player']);
+	unset($_SESSION['enemy']);
 
 	if (!isset($_SESSION['player']) && empty($_SESSION['player'])) {
 		$_SESSION['player'] = new Game();
@@ -203,7 +205,7 @@ $mas[0] = 'destroyer1';
 $mas[1] = 'destroyer2';
 $y = 1;
 $x = 1;
-$nbr = 1;
+$nbr = array(1,11);
 $stay = 'vertical';
 $size = 2;
 for ($i=0; $i < 2; $i++) { 
@@ -215,7 +217,7 @@ for ($i=0; $i < 2; $i++) {
 	$ship['pos']['x'] = $x;
 	$y += 7;
 	$x += 7;
-	$nbr = 78;
+	$nbr = array(78,88);
 	$pl_game->addShip($ship);
 }
 
@@ -226,7 +228,7 @@ $mas[0] = 'destroyer1';
 $mas[1] = 'destroyer2';
 $y = 1;
 $x = 1;
-$nbr = 1;
+$nbr = array(1,11);
 $stay = 'vertical';
 $size = 2;
 for ($i=0; $i < 2; $i++) { 
@@ -238,7 +240,7 @@ for ($i=0; $i < 2; $i++) {
 	$ship['pos']['x'] = $x;
 	$y += 7;
 	$x += 7;
-	$nbr = 78;
+	$nbr = array(78,88);
 	$pl_enemy->addShip($ship);
 }
 
@@ -248,7 +250,8 @@ print_r($pl_game);
 //print_r($pl_enemy);
 echo "****\n";
 
-//print_r($pl_game->getShips());
+print_r($pl_game->getShips());
+echo "total: " . count($pl_game->getShips()) . '</br>';
 // $hitter = $pl_game->getShips();
 // $hitter[0]->hit();
 // echo "lives: " . $hitter[0]->getLives();
@@ -258,10 +261,10 @@ echo "****\n";
 // 	$pl_game->shipDestroyed(0);
 // echo "****\n";
 
-print_r($pl_game->getShips());
+//print_r($pl_game->getShips());
 
-//unset($_SESSION['player']);
-//unset($_SESSION['enemy']);
+// unset($_SESSION['player']);
+// unset($_SESSION['enemy']);
 ?>
 <script src="js/my.js"></script>
   <script>

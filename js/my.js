@@ -20,6 +20,7 @@ $(document).ready(function () {
 		};
 	});
 
+
 	/*Ships player_turn.php*/
 	if ($('body').hasClass('player_turn')) {		
 		$('.has_ship.yes').each(function() {
@@ -47,27 +48,43 @@ $(document).ready(function () {
 		});
 
 		/*moves Player_turn.php*/
-		var tmp, y, x;		
+		var tmp, myobj, y, x;		
 		$('.has_ship').on('click', function() {
-			tmp = $(this).data('nbr');
-			console.log(tmp);
+			//console.log($(this).hasClass('hitted'));	
+			if (!$(this).hasClass('hitted')) {
+				myobj = $(this);
+				tmp = $(this).data('nbr');
+				console.log(tmp);
 
-			$('#ac-wrapper').css('display','block');
-				console.log($(this).find('.ships-dock'));
-				y = $(this).find('.ships-dock').data('pos_y');
-				x = $(this).find('.ships-dock').data('pos_x');
-				//console.log(y,x);
-				var data = '<p class="rem">Y: '+y+' X: '+x+'</p>';
-				$('#ac-wrapper').find('h2').append(data);
-			
-			$('.next_close').on('click', function() {
-				$('#ac-wrapper').css('display','none');
-			});
-			$('.next_cancel').on('click', function() {
-				$('#ac-wrapper').find('.rem').remove();//delete coords if not needed
-				$('#ac-wrapper').css('display','none');
-			});			
+				$('.ac-wrapper').css('display','block');
+					console.log($(this).find('.ships-dock'));
+					y = $(this).find('.ships-dock').data('pos_y');
+					x = $(this).find('.ships-dock').data('pos_x');
+					//console.log(y,x);
+					var data = '<p class="rem">Y: '+y+' X: '+x+'</p>';
+					$('.ac-wrapper').find('h2').append(data);
+				
+				$('.next_close').on('click', function() {
+					$('.ac-wrapper').css('display','none');
+				});
+				$('.next_cancel').on('click', function() {
+					$('.ac-wrapper').find('.rem').remove();//delete coords if not needed
+					$('.ac-wrapper').css('display','none');
+				});
+			}
+
+			//.fadeOut(1000);
+			//$('.ac-status').fadeOut('slow');
 		});
+
+		$('.has_ship.no.hitted').each(function() {
+			//console.log($(this));
+			$(this).find('.trg').css({"display":"block"});
+		});
+		$('.has_ship.yes.hitted').each(function() {
+			$(this).find('.hit').css({"display":"block"});
+		});
+
 
 		$('.attack_action').on('click', function() {
 			console.log(tmp);
@@ -81,12 +98,46 @@ $(document).ready(function () {
 					},
 					type:'POST',
 					success:function(data) {
-						console.log('res: '+data);					
+						// Нужно Вернуть сюда количество кораблей, если 0 то нужно сделать ко. игры
+						console.log('res: '+data);
+
 						$('.attack_action').removeClass('ok');
+						myobj.addClass('hitted');
+
+						$('.has_ship.no.hitted').each(function() {		
+							$(this).find('.trg').css({"display":"block"});
+						});
+						$('.has_ship.yes.hitted').each(function() {
+							$(this).find('.hit').css({"display":"block"});
+						});
+						if (myobj.hasClass('yes')) {
+							var str = '<div class="ac-status">'+
+											'<div class="player_hit">'+
+												'<h2 data-heading="Successful">Successful</h2><h2 data-heading="Strike!!!">Strike!!!</h2>'+
+											'</div>'+
+										'</div>';
+							$('.base-tmp').append(str);
+							$('.ac-status').fadeOut(2000).remove();
+						} else {
+							var str = '<div class="ac-status">'+
+											'<div class="player_miss">'+
+												'<h2>Miss</h2>'+
+												'<h3>Enemy turn</h3>'+
+											'</div>'+
+										'</div>';
+							$('.base-tmp').append(str);
+							setTimeout(function(){
+								$('.player_miss h3').animate({'padding-top': '60px'}).fadeOut();
+								//window.location.href = '/enemy_turn.php';
+							}, 1500);
+							//console.log(myobj);
+						}
 					}
-				//window.location.href = '/enemy_turn.php';
 				});
 			}
+			$('.ac-wrapper').css('display','none');
+			$('.ac-wrapper').find('.rem').remove();
+
 		});	
 	}
 

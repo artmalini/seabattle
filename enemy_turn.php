@@ -170,7 +170,7 @@ $pl_enemy = $_SESSION['enemy'];
 
 //echo $pl_game->totalShips() . '</br>';
 
-print_r($pl_game->getShips());
+print_r($pl_game);
 //$mas = $pl_enemy->getShips();
 
 //print_r($mas);
