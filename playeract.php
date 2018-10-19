@@ -13,11 +13,17 @@
 	$arr = null;
 
 	$res = 'miss';
-	if (!empty($_POST['target'])) {	
-		$pl_game->attacksCoords($trg);	
-		$objects = $pl_game->getAttackCoords();
+	if (!empty($_POST['target']) && !empty($_POST['act'])) {
+		if ($_POST['act'] === 'user') {
+			$pl_game->attacksCoords($trg);
+			$objects = $pl_game->getAttackCoords();
+			$fleet = $pl_enemy->getShips();
+		} elseif ($_POST['act'] === 'enemy') {
+			$pl_enemy->attacksCoords($trg);
+			$objects = $pl_enemy->getAttackCoords();
+			$fleet = $pl_game->getShips();
+		}
 
-		$fleet = $pl_enemy->getShips();
 		$count = count($fleet);
 		for ($i=0; $i < $count; $i++) {
 			$arr = $fleet[$i]->getNbr();

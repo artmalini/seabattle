@@ -94,7 +94,8 @@ $(document).ready(function () {
 				$.ajax({
 					url:'playeract.php',
 					data:{
-						target: trg
+						target: trg,
+						act: 'user'
 					},
 					type:'POST',
 					success:function(data) {
@@ -171,19 +172,123 @@ $(document).ready(function () {
 		//
 		if (typeof(Storage) !== "undefined") {
 			if (!sessionStorage.getItem("cells")) {
-				var mas = [];
+				var mas = new Array();
 				for (var i = 1; i < 101; i++) {
 					mas.push(i);
 				}
-				sessionStorage.setItem("cells", mas)
+				sessionStorage.setItem("cells", JSON.stringify(mas));
 			}
 		}
-		//localStorage.removeItem("cells");
+		//sessionStorage.removeItem("cells");
+		var nbr = 0;
 		//
-		//var get_mas = sessionStorage.getItem("cells")
-		// var num = Math.floor(Math.random() * get_mas.length);
-		// var roll = get_mas.splice(num, 1);
-		// var nbr = roll[0];
+		var data = JSON.parse(sessionStorage.getItem("ship"));
+		//
+		//nbr = data.nbr;
+		if (parseInt(data.nbr) == 0) {
+			var get_mas = JSON.parse(sessionStorage.getItem("cells"));
+			var num = Math.floor(Math.random() * get_mas.length);
+				console.log('just rundom :'+num);
+			var roll = get_mas.splice(num - 1, 1);
+				console.log(get_mas.length);
+				console.log('we get :'+roll[0]);	
+			sessionStorage.removeItem("cells");
+			sessionStorage.setItem("cells", JSON.stringify(get_mas));
+			nbr = roll[0];
+			//data.nbr = nbr;///should be delete after
+		}
+		//ship.west = 0;
+		var ship = {
+			sec_nbr: nbr,
+			nbr: nbr,
+			contact: 0,
+			west: 0,
+			north: 0,
+			east: 0,
+			south: 0
+		}
+		sessionStorage.setItem("ship", JSON.stringify(ship));
+
+		//if (!sessionStorage.getItem("ship")) {}
+
+		var myobj = $('body').find('[data-nbr="'+nbr+'"]');
+		$.ajax({
+			url:'playeract.php',
+			data:{
+				trg: nbr,
+				act: 'enemy'
+			},
+			type:'POST',
+			success:function(data) {
+				// Нужно Вернуть сюда количество кораблей, если 0 то нужно сделать ко. игры
+				console.log('res: '+data);
+				if (data.localeCompare('miss')) {// later on hit))
+					if (trg.west != 0 || trg.north != 0 || trg.east != 0 || trg.south != 0)
+						trg.contact = 1;
+					//if (trg.contact == 1) {
+					// trg.nbr = trg.sec_nbr;
+					// get_mas[trg.nbr - 1] == trg.nbr
+					//}
+					console.log('miss hehe');
+
+					var trg = JSON.parse(sessionStorage.getItem("ship"));
+					trg.contact = 1;
+					if (trg.west == 0) {
+						trg.nbr = nbr - 1;
+						trg.west = trg.nbr;
+					} 
+					else if (trg.north == 0) {
+						trg.nbr = nbr - 10;
+						trg.north = trg.nbr;
+					}
+					else if (trg.east == 0) {
+						trg.nbr = nbr + 1;
+						trg.east = trg.nbr;
+					}
+					else if (trg.south == 0) {
+						trg.nbr = nbr + 10;
+						trg.south = trg.nbr;
+					}
+					//for (var key in trg)
+					//	console.log(key);
+
+					//sessionStorage.setItem("ship", JSON.stringify(trg));
+				}
+
+
+				$('.attack_action').removeClass('ok');
+				myobj.addClass('hitted');
+
+				$('.has_ship.no.hitted').each(function() {		
+					$(this).find('.trg').css({"display":"block"});
+				});
+				$('.has_ship.yes.hitted').each(function() {
+					$(this).find('.hit').css({"display":"block"});
+				});
+				if (myobj.hasClass('yes')) {
+					var str = '<div class="ac-status">'+
+									'<div class="player_hit">'+
+										'<h2 data-heading="Successful">Successful</h2><h2 data-heading="Strike!!!">Strike!!!</h2>'+
+									'</div>'+
+								'</div>';
+					$('.base-tmp').append(str);
+					$('.ac-status').fadeOut(2000).remove();
+				} else {
+					var str = '<div class="ac-status">'+
+									'<div class="player_miss">'+
+										'<h2>Miss</h2>'+
+										'<h3>Enemy turn</h3>'+
+									'</div>'+
+								'</div>';
+					$('.base-tmp').append(str);
+					setTimeout(function(){
+						$('.player_miss h3').animate({'padding-top': '60px'}).fadeOut();
+						//window.location.href = '/enemy_turn.php';
+					}, 1500);
+					//console.log(myobj);
+				}
+			}
+		});		
 	}
 
 

@@ -12,100 +12,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">	
-	<title>Document</title>	
+	<title>Enemy</title>
+	<link rel="stylesheet" href="my.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="js/my.js"></script>
-<style>
-html {
-	padding: 0;
-	margin: 0;
-  height: 100%;
-}
-body {
-  min-height: 100%;
-}
-.back {
-	background-color: antiquewhite;
-	/* min-height: 100%; */
-}
-.base-tmp {
-	width: 1500px;
-	height: 100%;
-	background-color: #a1a4b0;
-	margin-left: 10%;
-	margin-top: 10%;
-}
-.wrap {
-   margin-left: 295px;
-   margin-right: 279px;
-   perspective: 646px;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-	/* width: 100%; */
-	/* border: 1px solid #ddd; */
-	transform-style: preserve-3d;
-	transform: rotateX(57deg);
-}
-
-th, td {
-	/* text-align: left; */
-	border: 1px solid #b4b4ff;
-	padding: 0;
-}
-.ships-dock {
-	position: relative;
-	width: 50px;
-	height: 50px;
-}
-tr:nth-child(even) { 
-	background-color: #1768cf;
-}
- .dragg, .draggable2 {
- 	    background-color: green;
- 	    width: 50px;
- 	    height: 100px;
- 	    padding: 0;
- 	    position: absolute;
- } 
-
- #ac-wrapper {
-display: none; 
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(255,255,255,.6);
-z-index: 1001;
-}
-#popup{
-width: 555px;
-height: 375px;
-background: #FFFFFF;
-border: 5px solid #000;
-border-radius: 25px;
--moz-border-radius: 25px;
--webkit-border-radius: 25px;
-box-shadow: #64686e 0px 0px 3px 3px;
--moz-box-shadow: #64686e 0px 0px 3px 3px;
--webkit-box-shadow: #64686e 0px 0px 3px 3px;
-position: relative;
-top: 20%;
-margin: auto;
-}
-#popup .close {
-    position: absolute;
-    right: 20px;
-    top: 18px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    background: url('http://g02.a.alicdn.com/kf/HTB1jHxALVXXXXa.XpXX760XFXXXE.png') no-repeat;
-}
-</style>
 </head>
 </head>
 <body class="enemy_turn">
@@ -123,41 +34,66 @@ $pl_enemy = $_SESSION['enemy'];
 				$find = 0;
 				$dragg = 1;
 				$mas = $pl_game->getShips();
+				$view_attack = $pl_enemy->getAttackCoords();
+				$count = count($mas);
+				$hit = null;
 
-				echo '<table>
-					<tbody>';
-				for ($i=1; $i < 11; $i++) {
-					echo '<tr>';
-					for ($j=1; $j < 11; $j++) {
-						for ($k=0; $k < 2; $k++) { 
-							if ($mas[$k]->getNbr() === $nbr) {
-								$find = 1;
-								echo '<td class="has_ship yes" data-nbr='.$nbr.'><div class="ships-dock" data-pos_y='.$mas[$k]->getPos()['y'].' data-pos_x='.$mas[$k]->getPos()['x'].'>
-								<div id="dragg'.$dragg++.'" class="dragg '.$mas[$k]->getType().'" data-stay="'.$mas[$k]->geStay().'" data-size="'.$mas[$k]->getSize().'" draggable="true"></div></td>';						
-								break;
+				if ($mas > 0) {
+					echo '<table>
+						<tbody>';
+					for ($i=1; $i < 11; $i++) {
+						echo '<tr>';
+						for ($j=1; $j < 11; $j++) {
+							for ($k=0; $k < $count; $k++) {
+								if ($mas[$k]->getNbr()[0] === $nbr) {
+									$find = 1;
+									if (in_array($nbr, $view_attack)) {
+										$hit = 'hitted';
+									} else {
+										$hit = null;
+									}
+									echo '<td class="has_ship yes ' .$hit.'" data-nbr='.$nbr.'>										
+											<div class="ships-dock" data-pos_y='.$mas[$k]->getPos()['y'].' data-pos_x='.$mas[$k]->getPos()['x'].'>
+												<div class="trg"></div>
+												<div class="hit"></div>
+												<div id="dragg'.$dragg++.'" class="dragg '.$mas[$k]->getType().'" data-stay="'.$mas[$k]->geStay().'" data-size="'.$mas[$k]->getSize().'" draggable="true"></div>
+											</div>
+										</td>';						
+									break;
+								}
+
+								$find = 0;
 							}
-							$find = 0;
+							if ($find == 0) {
+								if (in_array($nbr, $view_attack)) {
+									$hit = 'hitted';
+								} else {
+									$hit = null;
+								}						
+								echo '<td class="has_ship no ' .$hit.'" data-nbr='.$nbr.'>									
+										<div class="ships-dock" data-pos_y='.$i.' data-pos_x='.$j.'>
+											<div class="trg"></div>
+											<div class="hit"></div>
+										</div>
+									</td>';
+							}
+							$nbr++;
 						}
-						if ($find == 0) {
-							echo '<td class="has_ship no" data-nbr='.$nbr.'>
-							<div class="ships-dock" data-pos_y='.$i.' data-pos_x='.$j.'></div></td>';
-						}
-						$nbr++;
-					}
-					echo '</tr>';
+						echo '</tr>';
+					}						
+					echo '</tbody>
+					</table>';
 				}
-						
-				echo '</tbody>
-				</table>';
 			?>
 			</div>
 		</div>
-	 <div id="ac-wrapper">
-		<div id="popup">
+	 <div class="ac-wrapper">
+		<div class="popup">			
 			<div class="next_close"></div>
 		<center>
 			<h2>You choose target coordinats!</h2>
-				<input type="button" class="next_action" value="Attack!">
+			<div class="radar"></div>
+				<input type="button" class="attack_action" value="Attack!">
 				<input type="button" class="next_cancel" value="Cancel">
 		</center>
 		</div>
