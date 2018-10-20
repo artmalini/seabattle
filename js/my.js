@@ -1,14 +1,64 @@
+
 $(document).ready(function () {
+jQuery.fn.root = function() {
+    // Root is always document so we have to 
+    // go back to one before the last:
+    var root = this;
+    while(root.prevObject.prevObject) {
+        root = root.prevObject;
+    }
+    return root;
+};
+	var stay, size, nbr, fit = null;
 	$('.dragg').on("dragstart", function (event) {
 		var dt = event.originalEvent.dataTransfer;
 		dt.setData('Text', $(this).attr('id'));
-		//console.log(dt);
+		stay = $(this).data('stay');
+		size = $(this).data('size');
+		//nbr = $(this).closest('td').data('nbr');
+		//console.log(stay);
 	});
 	$('.ships-dock').on("dragenter dragover drop", function (event) {
 		event.preventDefault();
 		if (event.type === 'drop') {
+			nbr = $(this).closest('td').data('nbr');//dropped dock
+
 			var data = event.originalEvent.dataTransfer.getData('Text', $(this).attr('id'));
-			 console.log(data);
+			fit = $(this).closest('td');
+			console.log($(fit).hasClass('no'));
+				console.log($(this).closest('td'));
+				console.log(this);//transfer ship				
+			 console.log('data :'+data);
+			 //var stay = $(ship).find('.ships-dock');//.data('stay');//.find('.dragg');
+			 //var size =
+			 var pos_y = $(this).closest('td').find('.ships-dock').data('pos_y');
+			 var pos_x = $(this).closest('td').find('.ships-dock').data('pos_x');	 
+			 	console.log(stay);
+			 	console.log('size '+size);
+			 	console.log('nbr '+nbr);
+			 	console.log('pos_y: '+pos_y);
+			 	console.log('pos_y: '+pos_x);
+
+			 if (stay.localeCompare('vertical') == 0) {
+			 	if ($(fit).hasClass('no') == 1) {
+			 		if (nbr > 10)
+			 			var calc_n = $('.wrap').find('[data-nbr="'+(nbr - 10)+'"]');
+			 		if ((nbr % 10) != 0)
+			 			var calc_e = $('.wrap').find('[data-nbr="'+(nbr + 1)+'"]');
+			 		if (nbr > 1 && pos_x > 1)
+			 			var calc_w = $('.wrap').find('[data-nbr="'+(nbr - 1)+'"]');
+			 		if ((nbr + (10 * (size - 1))) < 100) {
+			 			nbr = (nbr + (10 * size)) > 99 ? -1 : nbr;
+			 			console.log(nbr);
+			 			if (nbr > 0)
+			 				var calc_s = $('.wrap').find('[data-nbr="'+nbr+'"]');
+			 		}
+			 		console.log(calc_n);
+			 		console.log(calc_e);
+			 		console.log(calc_w);
+			 		console.log(calc_s);
+			 	}
+			 }
 			
 		   var de = $('#' + data).detach();
 		   // if (event.originalEvent.target.tagName === "DIV") {

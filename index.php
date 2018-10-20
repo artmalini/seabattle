@@ -48,15 +48,15 @@ body {
 .wrap {
    margin-left: 295px;
    margin-right: 279px;
-   perspective: 646px;
+  /* perspective: 646px;*/
 }
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	/* width: 100%; */
 	/* border: 1px solid #ddd; */
-	transform-style: preserve-3d;
-	transform: rotateX(57deg);
+	/*transform-style: preserve-3d;
+	transform: rotateX(57deg);*/
 }
 
 th, td {
@@ -217,7 +217,7 @@ for ($i=0; $i < 2; $i++) {
 	$ship['pos']['x'] = $x;
 	$y += 7;
 	$x += 7;
-	$nbr = array(78,88);
+	$nbr = array(78,88);//all poinnts
 	$pl_game->addShip($ship);
 }
 
