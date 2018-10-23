@@ -54,10 +54,10 @@ $pl_enemy = $_SESSION['enemy'];
 										$hit = null;
 									}
 									echo '<td class="has_ship yes ' .$hit.'" data-nbr='.$nbr.'>
-											<div class="ships-dock" data-pos_y='.$mas[$k]->getPos()['y'].' data-pos_x='.$mas[$k]->getPos()['x'].'>
+											<div class="ships-dock" data-pos_y='.$i.' data-pos_x='.$j.'>
 												<div class="trg"></div>
 												<div class="hit"></div>
-												<div id="dragg'.$dragg++.'" class="dragg '.$mas[$k]->getType().'" data-stay="'.$mas[$k]->geStay().'" data-size="'.$mas[$k]->getSize().'" draggable="true"></div>
+												<div id="dragg'.$dragg++.'" class="dragg ply-'.$mas[$k]->getType().'" data-stay="'.$mas[$k]->geStay().'" data-size="'.$mas[$k]->getSize().'" draggable="true"></div>
 											</div>
 										</td>';
 									break;
