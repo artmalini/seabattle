@@ -36,6 +36,14 @@ class Game {
 				$this->ships[] = new Destroyer($name);
 				$this->nbr++;
 				break;
+			case 'destroyer':
+				$this->ships[] = new Destroyer($name);
+				$this->nbr++;
+				break;				
+			case 'cruiser':
+				$this->ships[] = new cruiser($name);
+				$this->nbr++;
+				break;
 			default:
 				break;
 

@@ -37,6 +37,41 @@ th, td {
 	padding: 0;
 }
 
+.centr-msg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -100px;
+    background-color: #e6e5e5;
+    min-height: 200px;
+    min-width: 300px;
+    border-radius: 3px;
+  font-family: serif;
+    font-size: 19px;
+    text-align: center;
+}
+.centr-msg .centr-word {
+  padding-top: 23px;
+}
+.centr-msg a.centr-word {
+    margin-top: 20%;
+    right: 19%;
+    position: absolute;
+}
+.centr-msg a {
+    text-decoration: none;
+    transition: 0.33s all ease-out;
+    color: #40636f;
+}
+.centr-msg a:hover {
+    text-decoration: none;
+    transition: 0.33s all ease-out;
+    color: #3d565e;
+}
+
+
+
 /* hit Miss */
 .trg {
 	display: none;
