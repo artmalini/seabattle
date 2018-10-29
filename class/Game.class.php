@@ -4,14 +4,12 @@ class Game {
 	private $title;
 	private $ships = array();
 	private $attacks = null;
-	//private $enemy_armada = array();
 	private $nbr = 0;
 	const SEA = 'Sea Battle';
 	
 	public function __construct() {
 		$this->title = self::SEA;
-		$this->attacks = array();
-		//$this->enemy_armada = new Enemy($mas);
+		$this->attacks = array();		
 	}
 
 	public function getShips() {
@@ -24,16 +22,13 @@ class Game {
 
 	public function shipDestroyed($key){
 		unset($this->ships[$key]);
+		$this->nbr--;
 	}
 
 	public function addShip(array $name) {
 		switch ($name['type']) {
-			case 'destroyer1':
-				$this->ships[] = new Destroyer($name);
-				$this->nbr++;
-				break;
-			case 'destroyer2':
-				$this->ships[] = new Destroyer($name);
+			case 'aircraft':
+				$this->ships[] = new Aircraft($name);
 				$this->nbr++;
 				break;
 			case 'destroyer':
@@ -41,7 +36,11 @@ class Game {
 				$this->nbr++;
 				break;				
 			case 'cruiser':
-				$this->ships[] = new cruiser($name);
+				$this->ships[] = new Cruiser($name);
+				$this->nbr++;
+				break;
+			case 'cutter':
+				$this->ships[] = new Cutter($name);
 				$this->nbr++;
 				break;
 			default:

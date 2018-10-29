@@ -1,4 +1,8 @@
 <?php
+    // $host = "fdb23.biz.nf";
+    // $user = "2863053_seabattle";
+    // $pass = "123456xDlol";
+    // $db = "2863053_seabattle";
     $host = "localhost";
     $user = "root";
     $pass = "";
@@ -56,9 +60,11 @@
         echo "Error creating table users: " . mysqli_error($conn);
 
     $sql = "CREATE TABLE IF NOT EXISTS `game` (
-    `game_id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `game_id` INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `pl_id` INT(11) NOT NULL,
-    `score` INT(11) NOT NULL
+    `pl_score` INT(11) NOT NULL,
+    `en_id` INT(11) NOT NULL,
+    `en_score` INT(11) NOT NULL
     )";
     if (!mysqli_query($conn, $sql))
         echo "Error creating table game` " . mysqli_error($conn);

@@ -1,4 +1,8 @@
 <?php
+    // $host = "fdb23.biz.nf";
+    // $user = "2863053_seabattle";
+    // $pass = "123456xDlol";
+    // $db = "2863053_seabattle";
     $host = "localhost";
     $user = "root";
     $pass = "";
@@ -13,7 +17,7 @@
 	<head>
 	    <meta charset="UTF-8">
 	    <title>Process to install</title>
-	    <link rel="stylesheet" href="my.css">
+	    <link rel="stylesheet" href="css/my.css">
 	</head>
 	<body>
 		<div class="centr-msg">

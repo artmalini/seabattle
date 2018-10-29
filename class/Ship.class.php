@@ -43,7 +43,7 @@ class Ship {
 		return $this->nbr;
 	}
 
-	public function geStay() {
+	public function getStay() {
 		return $this->stay;
 	}
 

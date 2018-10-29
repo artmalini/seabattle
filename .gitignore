@@ -1,0 +1,5 @@
+*.zip
+sftp-config.json
+res-def
+install.php
+game_config.php

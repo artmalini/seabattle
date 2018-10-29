@@ -1,12 +1,31 @@
 
 $(document).ready(function () {
+		
+		$('.table-wrap').on('click', '.bat_over_ok', function() {
+		 	window.location.href = '/game.php';
+		});	
+
+		if ($('body').hasClass('board-ships')) {
+			$('.ply').each(function() {
+				var model = $(this);
+				var stay = $(model).data('stay');
+				var type = $(model).data('type');
+				if (stay.localeCompare('vertical') == 0) {
+					$(model).css({'background': 'url(res/'+type+'-v.png) no-repeat'});
+				}
+				if (stay.localeCompare('horizontal') == 0) {
+					$(model).css({'background': 'url(res/'+type+'-h.png) no-repeat'});
+				}
+			});
+		}
+	
 
 	function add_classer() {
 		console.log('read');
 		$('.has_ship.yes').each(function() {
 			var nbr = $(this).data('nbr');
-			var stay = $(this).find('.dragg').data('stay');
-			var size = $(this).find('.dragg').data('size');
+			var stay = $(this).find('.ply').data('stay');
+			var size = $(this).find('.ply').data('size');
 			console.log(nbr);
 			if (stay) {
 				if (stay.localeCompare('vertical') == 0) {
@@ -41,21 +60,22 @@ $(document).ready(function () {
 		}, 500);
 	}
 
-	var stay, size, nbr, old_nbr, fit = null;
-	$('.dragg').on("dragstart", function (event) {
-		var dt = event.originalEvent.dataTransfer;
-		dt.setData('Text', $(this).attr('id'));
+
+	//$.event.addProp('dataTransfer');
+	var stay, size, nbr, old_nbr, fit, dt = null;
+	$('.dragg').on("touchstart dragstart", function (event) {
+		console.log('dragstart');
+
+		//dt = event.originalEvent.dataTransfer;
+		//dt.setData('Text', $(this).attr('id'));
+		//$.event.setData('Text', $(this).attr('id'));
+		dt = $(this).attr('id');
 		stay = $(this).data('stay');
 		size = $(this).data('size');
 		old_nbr = $(this).closest('td').data('nbr');
 
-		//console.log(old_nbr);
-		//nbr = $(this).closest('td').data('nbr');
-		//console.log(size);
-		//
- 		/*if previous dragg out from window*/
+ 		//if previous dragg out from window
 	   var out = $('.dragg').closest('td').hasClass('no');
-	    console.log(out);
 	   if (out) {
 			$('.dragg').closest('td').removeClass('no').addClass('yes');
 			add_classer();
@@ -119,18 +139,15 @@ $(document).ready(function () {
 					console.log($('.wrap').find('[data-nbr="'+(nbr - 10)+'"]')[0]);
 					return -6;
 				}
-				if ($('.wrap').find('[data-nbr="'+(nbr - (10 - 1))+'"]').hasClass('yes')) {
+				if ($('.wrap').find('[data-nbr="'+(nbr - (10 + 1))+'"]').hasClass('yes')) {
 					console.log($('.wrap').find('[data-nbr="'+(nbr - (10 + 1))+'"]')[0]);
 					return -7;
 				}
+				if ($('.wrap').find('[data-nbr="'+(nbr - 1)+'"]').hasClass('yes')) {
+					console.log($('.wrap').find('[data-nbr="'+(nbr - 1)+'"]')[0]);
+					return -7;
+				}				
 			}
-
-			//for (var i = -1; i < 2; i++) {
-				//if ((nbr - (10 + i) % 10 != 0)) {
-					//calc_n = $('.wrap').find('[data-nbr="'+(nbr - (10 + i))+'"]');
-					//console.log($('.wrap').find('[data-nbr="'+(nbr - (10 + i))+'"]')[0]);
-				//}				
-			//}
 		}
 		console.log('----');
 		for (var i = 0, j = 0; i < tm_size; i++, j = 10) {
@@ -146,7 +163,6 @@ $(document).ready(function () {
 					return -9;
 				}
 			}
-			//j = 10;
 		}
 		console.log('----');
 		if ((nbr + (10 * (tm_size - 1))) < 100) {
@@ -186,18 +202,9 @@ $(document).ready(function () {
 						return -16;
 					}
 				}
-
-				//for (var i = -1; i < tmp; i++) {
-				//	calc_s = $('.wrap').find('[data-nbr="'+(nbr + (10 * tm_size) + (i))+'"]');
-				//	console.log($('.wrap').find('[data-nbr="'+(nbr + (10 * tm_size) + (i))+'"]')[0]);
-				//}
 			}
 		}
 		console.log('xxxx');
-		//console.log(calc_n);
-		//console.log(calc_e);
-		//console.log(calc_w);
-		//console.log(calc_s);
 		return 1;
 	}
 
@@ -232,7 +239,7 @@ $(document).ready(function () {
 								console.log($('.wrap').find('[data-nbr="'+(nbr - 10)+'"]')[0]);
 								return -6;
 							}
-							if ($('.wrap').find('[data-nbr="'+(nbr - (10 - 1))+'"]').hasClass('yes')) {
+							if ($('.wrap').find('[data-nbr="'+(nbr - (10 + 1))+'"]').hasClass('yes')) {
 								console.log($('.wrap').find('[data-nbr="'+(nbr - (10 + 1))+'"]')[0]);
 								return -7;
 							}
@@ -281,20 +288,22 @@ $(document).ready(function () {
 		return 1;
 	}
 
-	$('.ships-dock').on("dragenter dragover drop", function (event) {
+	$('.ships-dock').on("touchmove touchend dragenter dragover drop", function (event) {
+		console.log('move drag');
 		horizont_handler();
 		vertical_handler();
 		event.preventDefault();
-		if (event.type === 'drop') {
+		if (event.type === 'drop' || event.type == 'touchend') {
 			console.log('droped');
 			nbr = $(this).closest('td').data('nbr');//dropped dock
 
-			var data = event.originalEvent.dataTransfer.getData('Text', $(this).attr('id'));
+			//var data = event.originalEvent.dataTransfer.getData('Text', $(this).attr('id'));
+			var data = dt;
 			fit = $(this).closest('td');
-			console.log($(fit).hasClass('no'));
-				console.log($(this).closest('td'));
-				console.log(this);//transfer ship				
-			 console.log('data :'+data);
+			//console.log($(fit).hasClass('no'));
+			//	console.log($(this).closest('td'));
+			//	console.log(this);//transfer ship
+			 //console.log('data :'+data);
 			 //var stay = $(ship).find('.ships-dock');//.data('stay');//.find('.dragg');
 			 //var size =
 			 var pos_y = $(this).closest('td').find('.ships-dock').data('pos_y');
@@ -311,7 +320,7 @@ $(document).ready(function () {
 			var calc_s = 0;
 
 			 if (stay.localeCompare('vertical') == 0) {
-				console.log('xxxxx');
+				console.log('xxxxx-vert');
 				if ($(fit).hasClass('no') == 1) {
 					if (((size - 1) + pos_y) > 10) {
 						err_message();
@@ -330,10 +339,8 @@ $(document).ready(function () {
 			 }
 
 
-
-
 			 if (stay.localeCompare('horizontal') == 0) {
-				console.log('xxxxx');
+				console.log('xxxxx-horiz');
 				if ($(fit).hasClass('no') == 1) {
 					if (((size - 1) + pos_x) > 10) {
 						err_message();
@@ -347,50 +354,20 @@ $(document).ready(function () {
 						return -1;
 					}
 				} else {
-					//$('.wrap').find('[data-nbr="'+old_nbr+'"]').removeClass('no').addClass('yes');
-					//add_classer();
 					err_message();
 					return -1;
 				}
-			 }
+			}
 
-			 vertical_handler();
-			 horizont_handler();
-			// if (stay.localeCompare('vertical') == 0) {
-			// 	$('.wrap').find('[data-nbr="'+old_nbr+'"]').removeClass('yes').addClass('no');
-			// 	for (var i = size; i > 1; i--) {
-			// 		var tmp = $('.wrap').find('[data-nbr="'+(old_nbr + (--size * 10))+'"]');				
-			// 		$(tmp).removeClass('yes').addClass('no');
-			// 		//console.log(tmp);
-			// 	}
-			// }
-			// 
-			// if (stay.localeCompare('horizontal') == 0) {
-			// 	$('.wrap').find('[data-nbr="'+old_nbr+'"]').removeClass('yes').addClass('no');
-			// 	for (var i = size; i > 1; i--) {
-			// 		var tmp = $('.wrap').find('[data-nbr="'+(old_nbr + (--size))+'"]');
-			// 		$(tmp).removeClass('yes').addClass('no');
-			// 		//console.log(tmp);
-			// 	}
-			// }
-			
-		   var de = $('#' + data).detach();
-		  // console.log($('#' + data));
-		   // if (event.originalEvent.target.tagName === "DIV") {
-			//    de.insertBefore($(event.originalEvent.target));
-			//}
-			//else {
-				de.appendTo($(this));
-		   // }
-		   $(de).closest('td').removeClass('no').addClass('yes');
-		   add_classer();
+			vertical_handler();
+			horizont_handler();
+		  	var de = $('#' + data).detach();
 
-
-		   console.log(de);
+			de.appendTo($(this));		   
+		  	$(de).closest('td').removeClass('no').addClass('yes');
+		   	add_classer();
+		   //console.log(de);
 		} else {
-			// $('.wrap').find('[data-nbr="'+old_nbr+'"]').removeClass('no').addClass('yes');
-			//add_classer();			
-			console.log('out drop');
 			return ;
 		}
 	});
@@ -422,24 +399,25 @@ $(document).ready(function () {
 
 	   if (stay.localeCompare('vertical') == 0) {
 	   		vertical_handler()
+	   		var type = $(obj).data('type');
 	   		$(obj).data('stay', 'horizontal');
-	   		$(obj).css({'width': size * 50 + 'px', 'height': '50px'});
+	   		$(obj).css({'width': size * 50 + 'px', 'height': '50px', 'background': 'url(res/'+type+'-h.png) no-repeat'});
 	   		console.log(obj);
 	   		console.log($(this).data('stay'));
 
 			if (((size - 1) + pos_x) > 10) {
 				console.log('no error horizont');
 				err_message();
-				setTimeout(function () {$(obj).css({'width': '50px', 'height': size * 50 + 'px'});}, 300);
+				setTimeout(function () {$(obj).css({'width': '50px', 'height': size * 50 + 'px', 'background': 'url(res/'+type+'-v.png) no-repeat'});}, 300);
 				$(obj).data('stay', 'vertical');
 				$('.wrap').find('[data-nbr="'+old_nbr+'"]').removeClass('no').addClass('yes');
-				add_classer();				
+				add_classer();
 				return -1;
 			}
 			if (horizontal_check(nbr, pos_x, pos_y, size) != 1) {
 					console.log('error horizont');
 				err_message();
-				setTimeout(function () {$(obj).css({'width': '50px', 'height': size * 50 + 'px'});}, 300);
+				setTimeout(function () {$(obj).css({'width': '50px', 'height': size * 50 + 'px', 'background': 'url(res/'+type+'-v.png) no-repeat'});}, 300);
 				$(obj).data('stay', 'vertical');
 				$('.wrap').find('[data-nbr="'+old_nbr+'"]').removeClass('no').addClass('yes');
 				add_classer();
@@ -452,23 +430,25 @@ $(document).ready(function () {
 
 	   if (stay.localeCompare('horizontal') == 0) {
 	   		horizont_handler();
+	   		var type = $(obj).data('type');
 	   		$(obj).data('stay', 'vertical');
-	   		$(obj).css({'width': '50px', 'height': size * 50 + 'px'});
+	   		$(obj).css({'width': '50px', 'height': size * 50 + 'px', 'background': 'url(res/'+type+'-v.png) no-repeat'});
 	   		console.log(obj);
 	   		console.log($(this).data('stay'));
 
 			if (((size - 1) + pos_y) > 10) {
 				console.log('no error vertical');
 				err_message();
-				setTimeout(function () {$(obj).css({'width': size * 50 + 'px', 'height': '50px'});}, 300);
+				setTimeout(function () {$(obj).css({'width': size * 50 + 'px', 'height': '50px', 'background': 'url(res/'+type+'-h.png) no-repeat'});}, 300);
 				$(obj).data('stay', 'horizontal');
-				add_classer();				
+				add_classer();
 				return -1;
 			}
 			if (vertical_check(nbr, pos_x, pos_y, size) != 1) {
+					console.log(vertical_check(nbr, pos_x, pos_y, size));
 					console.log('error vertical');
 				err_message();
-				setTimeout(function () {$(obj).css({'width': size * 50 + 'px', 'height': '50px'});}, 300);
+				setTimeout(function () {$(obj).css({'width': size * 50 + 'px', 'height': '50px', 'background': 'url(res/'+type+'-h.png) no-repeat'});}, 300);
 				$(obj).data('stay', 'horizontal');
 				$('.wrap').find('[data-nbr="'+old_nbr+'"]').removeClass('no').addClass('yes');
 				add_classer();
@@ -476,20 +456,25 @@ $(document).ready(function () {
 			}
 
 			$('.wrap').find('[data-nbr="'+old_nbr+'"]').removeClass('no').addClass('yes');
-			add_classer();	   		
+			add_classer();
 	   }
 
 	})
 
 
-	/*Ships player_turn.php*/
-	if ($('body').hasClass('player_turn')) {		
-		add_classer();
+
+	/*---------------------------------------------------------------------
+
+	
+	 Ships player_turn.php
+	-----------------------------------------------------------------------*/
+	if ($('body').hasClass('player_turn')) {
+		//add_classer();
 
 		/*moves Player_turn.php*/
 		var tmp, myobj, y, x;		
 		$('.has_ship').on('click', function() {
-			//console.log($(this).hasClass('hitted'));	
+			//console.log($(this).hasClass('hitted'));
 			if (!$(this).hasClass('hitted')) {
 				myobj = $(this);
 				tmp = $(this).data('nbr');
@@ -538,13 +523,42 @@ $(document).ready(function () {
 					},
 					type:'POST',
 					success:function(data) {
-						// Нужно Вернуть сюда количество кораблей, если 0 то нужно сделать ко. игры
-						console.log('res: '+data);
+						// Нужно Вернуть сюда количество кораблей, если 10 то нужно сделать ко. игры
+						var ret = JSON.parse(data);
+						//console.log('res: '+ret.user);
+						console.log(ret.act.localeCompare('damage') == 0);
 
-						$('.attack_action').removeClass('ok');
+						if (ret.u_total == 10) {
+							var res = '<div class="bat_over_status">'+
+											'<div class="bat_over_statis">'+
+												'<h2>Game Over! You WIN</h2>'+
+												'<h2>Total Score:</h2>'+
+													'<span class="bat_u_score">'+ret.user+' '+ret.u_total+'</span>'+
+													'<span class="bat_e_score">Enemy '+ret.e_total+'</span>'+
+											'</div>'+
+											'<div class="foot_bat_over_ok"></div>'+
+											'<div class="bat_over_ok">Play again</div>'+
+										'</div>';
+							$('.table-wrap').prepend(res);
+						}
+
+						if (ret.act.localeCompare('destroyed') == 0) {
+							var res = '<div class="bat_all_status">'+
+											'<div class="bat_statis">'+
+												'<h2>Score:</h2>'+
+													'<span class="bat_u_score">'+ret.user+' '+ret.u_total+'</span>'+
+													'<span class="bat_e_score">Enemy '+ret.e_total+'</span>'+
+													'<img src="res/'+ret.typea+'_1.jpg" alt="">'+
+											'</div>'+
+											'<div class="foot_bat_all_ok"></div>'+
+											'<div class="bat_all_ok">destroyed</div>'+
+										'</div>';
+							$('.table-wrap').prepend(res);
+						}
+
 						myobj.addClass('hitted');
 
-						$('.has_ship.no.hitted').each(function() {		
+						$('.has_ship.no.hitted').each(function() {
 							$(this).find('.trg').css({"display":"block"});
 						});
 						$('.has_ship.yes.hitted').each(function() {
@@ -553,11 +567,15 @@ $(document).ready(function () {
 						if (myobj.hasClass('yes')) {
 							var str = '<div class="ac-status">'+
 											'<div class="player_hit">'+
-												'<h2 data-heading="Successful">Successful</h2><h2 data-heading="Strike!!!">Strike!!!</h2>'+
+												'<h2 data-heading="Successful">Successful</h2><h2 data-heading="Strike">Strike</h2>'+
 											'</div>'+
 										'</div>';
 							$('.base-tmp').append(str);
-							$('.ac-status').fadeOut(2000).remove();
+							setTimeout(function(){
+								$('.ac-status').fadeOut(2000);
+								$('.ac-status').remove();
+								$('.attack_action').removeClass('ok');
+							}, 1500);
 						} else {
 							var str = '<div class="ac-status">'+
 											'<div class="player_miss">'+
@@ -568,7 +586,8 @@ $(document).ready(function () {
 							$('.base-tmp').append(str);
 							setTimeout(function(){
 								$('.player_miss h3').animate({'padding-top': '60px'}).fadeOut();
-								//window.location.href = '/enemy_turn.php';
+								$('.attack_action').removeClass('ok');
+								window.location.href = '/enemy_turn.php';
 							}, 1500);
 							//console.log(myobj);
 						}
@@ -579,6 +598,11 @@ $(document).ready(function () {
 			$('.ac-wrapper').find('.rem').remove();
 
 		});	
+
+		$('.table-wrap').on('click .bat_all_ok', function() {
+			$('.bat_all_status').remove();
+		});
+	
 	}
 
 
@@ -586,27 +610,35 @@ $(document).ready(function () {
 
 
 
-	/*Ships enemy_turn*/
-		if ($('body').hasClass('enemy_turn')) {		
-		$('.has_ship.yes').each(function() {
-			var nbr = $(this).data('nbr');
-			var stay = $(this).find('.dragg').data('stay');
-			var size = $(this).find('.dragg').data('size');
 
-			if (stay.localeCompare('vertical') == 0) {
-				for (var i = size; i > 1; i--) {
-					var tmp = $('.wrap').find('[data-nbr="'+(nbr + (--size * 10))+'"]');
-					$(tmp).removeClass('no').addClass('yes');
+
+
+	/*---------------------------------------------------------
+
+	
+	 Ships enemy_turn
+	----------------------------------------------------------*/
+	if ($('body').hasClass('enemy_turn')) {
+			$('.has_ship.yes').each(function() {
+				var nbr = $(this).data('nbr');
+				var stay = $(this).find('.ply').data('stay');
+				var size = $(this).find('.ply').data('size');
+				if (stay) {
+					if (stay.localeCompare('vertical') == 0) {
+						for (var i = size; i > 1; i--) {
+							var tmp = $('.wrap').find('[data-nbr="'+(nbr + (--size * 10))+'"]');
+							$(tmp).removeClass('no').addClass('yes');
+						}
+					}
+					if (stay.localeCompare('horizontal') == 0) {
+						for (var i = size; i > 1; i--) {
+							var tmp = $('.wrap').find('[data-nbr="'+(nbr + (--size))+'"]');
+							$(tmp).removeClass('no').addClass('yes');
+							//console.log(tmp);
+						}
+					}
 				}
-			}
-			if (stay.localeCompare('horizontal') == 0) {
-				for (var i = size; i > 1; i--) {
-					var tmp = $('.wrap').find('[data-nbr="'+(nbr + (--size))+'"]');
-					$(tmp).removeClass('no').addClass('yes');
-					//console.log(tmp);
-				}
-			}
-		});
+			});
 		//Math.floor(Math.random() * 100) + 1;
 		//
 		if (typeof(Storage) !== "undefined") {
@@ -620,7 +652,17 @@ $(document).ready(function () {
 		}
 		//sessionStorage.removeItem("cells");
 		var nbr = 0;
-		//
+		//ship.west = 0;
+		var ship = {
+			sec_nbr: nbr,
+			nbr: nbr,
+			contact: 0,
+			west: 0,
+			north: 0,
+			east: 0,
+			south: 0
+		}
+		sessionStorage.setItem("ship", JSON.stringify(ship));
 		var data = JSON.parse(sessionStorage.getItem("ship"));
 		//
 		//nbr = data.nbr;
@@ -636,17 +678,6 @@ $(document).ready(function () {
 			nbr = roll[0];
 			//data.nbr = nbr;///should be delete after
 		}
-		//ship.west = 0;
-		var ship = {
-			sec_nbr: nbr,
-			nbr: nbr,
-			contact: 0,
-			west: 0,
-			north: 0,
-			east: 0,
-			south: 0
-		}
-		sessionStorage.setItem("ship", JSON.stringify(ship));
 
 		//if (!sessionStorage.getItem("ship")) {}
 
@@ -654,23 +685,56 @@ $(document).ready(function () {
 		$.ajax({
 			url:'playeract.php',
 			data:{
-				trg: nbr,
+				target: nbr,
 				act: 'enemy'
 			},
 			type:'POST',
 			success:function(data) {
-				// Нужно Вернуть сюда количество кораблей, если 0 то нужно сделать ко. игры
-				console.log('res: '+data);
-				if (data.localeCompare('miss')) {// later on hit))
+				// Нужно Вернуть сюда количество кораблей, если 10 то нужно сделать ко. игры
+				var ret = JSON.parse(data);
+				console.log('res: '+ret);
+
+				if (ret.e_total && ret.e_total == 10) {
+					var res = '<div class="bat_over_status">'+
+									'<div class="bat_over_statis">'+
+										'<h2>Game Over! You Loose</h2>'+
+										'<h2>Total Score:</h2>'+
+											'<span class="bat_u_score">'+ret.user+' '+ret.u_total+'</span>'+
+											'<span class="bat_e_score">Enemy '+ret.e_total+'</span>'+
+									'</div>'+
+									'<div class="foot_bat_over_ok"></div>'+
+									'<div class="bat_over_ok">Play again</div>'+
+								'</div>';
+					$('.table-wrap').prepend(res);
+				}
+
+				if (ret.act && ret.act.localeCompare('destroyed') == 0) {
+					var res = '<div class="bat_all_status">'+
+									'<div class="bat_statis">'+
+										'<h2>Score:</h2>'+
+											'<span class="bat_u_score">'+ret.user+' '+ret.u_total+'</span>'+
+											'<span class="bat_e_score">Enemy '+ret.e_total+'</span>'+
+											'<img src="res/'+ret.typea+'_1.jpg" alt="">'+
+									'</div>'+
+									'<div class="foot_bat_all_ok"></div>'+
+									'<div class="bat_all_ok">shipwreck</div>'+
+								'</div>';
+					$('.table-wrap').prepend(res);
+					setTimeout(function(){
+						window.location.href = '/enemy_turn.php';
+					}, 6000);
+				}				
+
+				var trg = JSON.parse(sessionStorage.getItem("ship"));
+				if (ret.act.localeCompare('miss') == 0) {// later on hit))
 					if (trg.west != 0 || trg.north != 0 || trg.east != 0 || trg.south != 0)
 						trg.contact = 1;
 					//if (trg.contact == 1) {
 					// trg.nbr = trg.sec_nbr;
 					// get_mas[trg.nbr - 1] == trg.nbr
 					//}
-					console.log('miss hehe');
+					console.log('miss target');
 
-					var trg = JSON.parse(sessionStorage.getItem("ship"));
 					trg.contact = 1;
 					if (trg.west == 0) {
 						trg.nbr = nbr - 1;
@@ -698,7 +762,7 @@ $(document).ready(function () {
 				$('.attack_action').removeClass('ok');
 				myobj.addClass('hitted');
 
-				$('.has_ship.no.hitted').each(function() {		
+				$('.has_ship.no.hitted').each(function() {
 					$(this).find('.trg').css({"display":"block"});
 				});
 				$('.has_ship.yes.hitted').each(function() {
@@ -707,22 +771,26 @@ $(document).ready(function () {
 				if (myobj.hasClass('yes')) {
 					var str = '<div class="ac-status">'+
 									'<div class="player_hit">'+
-										'<h2 data-heading="Successful">Successful</h2><h2 data-heading="Strike!!!">Strike!!!</h2>'+
+										'<h2 data-heading="Enemy">Enemy</h2><h2 data-heading="Strike">Strike</h2>'+
 									'</div>'+
 								'</div>';
 					$('.base-tmp').append(str);
-					$('.ac-status').fadeOut(2000).remove();
+					setTimeout(function(){
+						$('.ac-status').fadeOut(2000);
+						$('.ac-status').remove();
+						window.location.href = '/enemy_turn.php';
+					}, 1500);
 				} else {
 					var str = '<div class="ac-status">'+
 									'<div class="player_miss">'+
-										'<h2>Miss</h2>'+
-										'<h3>Enemy turn</h3>'+
+										'<h2>Enemy Miss!!!</h2>'+
+										'<h3>Your turn</h3>'+
 									'</div>'+
 								'</div>';
 					$('.base-tmp').append(str);
 					setTimeout(function(){
 						$('.player_miss h3').animate({'padding-top': '60px'}).fadeOut();
-						//window.location.href = '/enemy_turn.php';
+						window.location.href = '/player_turn.php';
 					}, 1500);
 					//console.log(myobj);
 				}
@@ -734,33 +802,35 @@ $(document).ready(function () {
 
 
 
+
+
+
+
+
 	function add_coord() {
 		var coord = '';
-		$('.has_ship.yes').each(function() {
-			//var pos_x = $(this).closest('ships-dock').data('pos_x');
-			//var pos_y = $(this).closest('ships-dock').data('pos_y');
-			var nbr = $(this).data('nbr');
-			//var stay = $(this).find('.dragg').data('stay');
-			//var size = $(this).find('.dragg').data('size');
-			//console.log(pos_x);
-			coord += nbr + ','; 
-			console.log(nbr);
-			// if (stay) {
-			// 	if (stay.localeCompare('vertical') == 0) {
-			// 		for (var i = size; i > 1; i--) {
-			// 			var tmp = $('.wrap').find('[data-nbr="'+(nbr + (--size * 10))+'"]');
-			// 			$(tmp).removeClass('no').addClass('yes');
-			// 			//console.log(tmp[0]);
-			// 		}
-			// 	}
-			// 	if (stay.localeCompare('horizontal') == 0) {
-			// 		for (var i = size; i > 1; i--) {
-			// 			var tmp = $('.wrap').find('[data-nbr="'+(nbr + (--size))+'"]');
-			// 			$(tmp).removeClass('no').addClass('yes');
-			// 			//console.log(tmp[0]);
-			// 		}
-			// 	}
-			// }
+		$('.ply').each(function(i, elem) {
+			var nbr = $(this).closest('.has_ship.yes').data('nbr');
+			var stay = $(this).data('stay');
+			var size = $(this).data('size');
+			var tmp_size = size;
+			coord += nbr + ',';
+			if (stay) {
+				if (stay.localeCompare('vertical') == 0) {
+					for (var i = size; i > 1; i--) {
+						var tmp = $('.wrap').find('[data-nbr="'+(nbr + (--size * 10))+'"]');
+						coord += $(tmp).data('nbr') + ',';
+						//console.log(coord);
+					}
+				}
+				if (stay.localeCompare('horizontal') == 0) {
+					for (var i = size; i > 1; i--) {
+						var tmp = $('.wrap').find('[data-nbr="'+(nbr + (--size))+'"]');
+						coord += $(tmp).data('nbr') + ',';
+						//console.log(coord);
+					}
+				}
+			}			
 		});
 		return coord;
 	}
@@ -769,7 +839,7 @@ $(document).ready(function () {
 		var types = '';
 
 		$('.has_ship.yes').each(function() {
-			var val = $(this).find('.dragg').data('type');
+			var val = $(this).find('.ply').data('type');
 			if (val)
 				types += val + ','; 
 		});
@@ -780,26 +850,21 @@ $(document).ready(function () {
 		var stays = '';
 
 		$('.has_ship.yes').each(function() {
-			var val = $(this).find('.dragg').data('stay');
+			var val = $(this).find('.ply').data('stay');
 			if (val)
 				stays += val + ','; 
 		});
 		return stays;
 	}
 
-	/*Game actions index.php*/
-	$('.next_action').on('click', function() {
-		console.log("yep");
-		if (!$('.next_action').hasClass('ok')) {
-			$('.next_action').removeClass('ok');
-			window.location.href = '/player_turn.php';
-		}
-	});
 
-	$('.fleet').on('click', function() {
-		console.log("fleet");
-		if (!$('.fleet').hasClass('ok')) {
-			$('.fleet').removeClass('ok');
+	/*Game actions game.php*/
+
+
+	$('.save_fleet').on('click', function() {
+		console.log("save_fleet");
+		if (!$('.save_fleet').hasClass('ok')) {
+			$('.save_fleet').addClass('ok');
 			var coord = add_coord();
 			var type = add_type();
 			var stay = add_stay();
@@ -812,16 +877,55 @@ $(document).ready(function () {
 				data: {
 					coord: coord,
 					type: type,
-					stay: stay					
+					stay: stay
 				},
 				type: 'POST',
 				success: function(val) {
 					console.log('res: ' + val);
+					$('.save_fleet').after('<div class="save_status">Fleet on positions </br> Press start and fight!</div>');
+					setTimeout(function() {
+						$('.save_status').fadeOut().remove();
+						$('.save_fleet').removeClass('ok');
+						$('.start_game').addClass('start').css({'display':'block'});
+					}, 1000);
 				}
 			});
-			//window.location.href = '/player_turn.php';
 		}
 	});
 
+	$('.yes').on('click', function() {
+		if (!$(this).hasClass('on')) {
+			$(this).addClass('on');
+			var tmp = this;
+		
+			if ($(tmp).find('.ply').length == 0) {
+					$(tmp).find('.circle').css({'display':'block'});
+					setTimeout(function() {
+						$(tmp).find('.circle').css({'display':'none'});
+						$(tmp).removeClass('on');
+					}, 2000);
+				}
+			}
+	});
+
+	$('.all_ok').on('click', function() {
+		$('.all_status').toggle();
+	});
+	$('.faq').on('click', function() {
+		$('.all_status').toggle();
+	});
+
+
+	$('.exit_game').on('click', function() {
+		if(confirm('Leave the game')) {
+			window.location.href = '/logout.php';
+		}
+	});
+
+	$('.start_game').on('click', function() {
+		if ($('.start_game').hasClass('start')) {
+			window.location.href = '/player_turn.php';
+		}
+	});
 
 })

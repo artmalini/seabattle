@@ -1,11 +1,16 @@
 <?php
 	require_once "class/Ship.class.php";
+	require_once "class/Aircraft.class.php";
+	require_once "class/Cutter.class.php";
 	require_once "class/Cruiser.class.php";
 	require_once "class/Destroyer.class.php";
 	require_once "class/Game.class.php";
 
 	if (session_status() === PHP_SESSION_NONE) {
 		session_start(); 
+	}
+	if (empty($_SESSION['login'])) {
+		header('Location: index.php');
 	}
 	unset($_SESSION['player']);
 	//unset($_SESSION['enemy']);
@@ -29,11 +34,17 @@ if (!empty($_POST['coord']) && !empty($_POST['stay']) && !empty($_POST['type']))
 	$max = 0;
 	foreach ($type as $key) {
 		if ($key) {
+			if ($key == 'cutter') {
+				$max = 0;
+			}			
 			if ($key == 'destroyer') {
 				$max = 1;
 			}
 			if ($key == 'cruiser') {
 				$max = 2;
+			}
+			if ($key == 'aircraft') {
+				$max = 3;
 			}			
 				$pos = 0;
 				$ship[$i]['type'] = $key;
@@ -65,6 +76,7 @@ if (!empty($_POST['coord']) && !empty($_POST['stay']) && !empty($_POST['type']))
 		$pl_game->addShip($build);
 		unset($build);
 	}
+
 
 	print_r($ship);
 	//print_r($pl_game->getShips());

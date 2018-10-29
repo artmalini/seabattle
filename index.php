@@ -5,95 +5,66 @@
 		session_start(); 
 	}	
 
-    if ($_POST['submit'] == "OK" && $_POST['submit'] && !empty($_POST['login']) && !empty($_POST['passwd']))
-    {
-        $exist = 0;
-        $sql = "SELECT id, login FROM users";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0)
-        {
-            while ($row = mysqli_fetch_assoc($result))
-            {
-                if ($row['login'] == $_POST['login'])
-                {
-                    echo "User exists already<br/>";
-                    $exist = 1;
-                    break;
-                }
-            }
-        }
-        if (!$exist)
-        {
-            $pwd = real_escape_string($_POST['passwd']);
-            $login = real_escape_string($_POST['login']);
-            $sql = "INSERT INTO users (login, password)
-                VALUES ('" . $login . "', '" . hash('whirlpool', $pwd) . "')";
-            mysqli_query($conn, $sql);
-            mysqli_close($conn);
-            header('Location: game.php');
-        }
-    }
+		if ($_POST['submit'] == "Enter to GAME!" && $_POST['submit'] && !empty($_POST['login']) && !empty($_POST['passwd']))
+		{
+			$pwd = $conn->real_escape_string($_POST['passwd']);
+			$login = $conn->real_escape_string($_POST['login']);
 
-
-	
-    if ($_POST['login'] && $_POST['passwd'] && auth($_POST['login'], $_POST['passwd'])) {
-    	$pwd = real_escape_string($_POST['passwd']);
-    	$login = real_escape_string($_POST['login']);
-
-	    $sql = "SELECT * FROM `users` WHERE `login` = '$login'";
-	    $result = mysqli_query($conn, $sql);
-	    if (mysqli_num_rows($result) > 0) {
-	        $row = mysqli_fetch_assoc($result);
-	        if ($row['password'] === hash('whirlpool', $pwd)) {
-		        $_SESSION['login'] = $_POST['login'];
-	            mysqli_close($conn);
-		        header('Location: game.php');
-	        } else {
-	        	echo "login error";
-	        	mysqli_close($conn);
-	        }
-	    }
-    }
-    else
-        $_SESSION['login'] = "";    
+			$sql = "SELECT * FROM `users` WHERE `login` = '$login'";
+			$result = mysqli_query($conn, $sql);
+			if (mysqli_num_rows($result) > 0) {
+					$row = mysqli_fetch_assoc($result);
+					if ($row['password'] === hash('whirlpool', $pwd)) {
+						$_SESSION['login'] = $login;
+							mysqli_close($conn);
+						header('Location: game.php');
+					} else {
+						$status = "* login error";
+						mysqli_close($conn);
+					}
+			} else {
+						mysqli_close($conn);
+						header('Location: register.php');
+				}  
+		}
+		
+	 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">	
-	<title>Document</title>	
-	<link rel="stylesheet" href="my.css">
+	<title>SeaBattle</title>	
+	<link rel="stylesheet" href="css/my.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 </head>
-<body>
+<body class="main-board">
 
-
-
-<div class="wrap main">
-
-<a name="fb_share">share</a>
-<a href="gsme.php">Enter to GAME!</a>
-<script src="https://www.facebook.com/connect.php/js/FB.Share" type="text/javascript"></script>
-</div>
-<?php 
-// unset($_SESSION['player']);
-// unset($_SESSION['enemy']);
-?>
+	 <section>
+				<div class="container">
+					 <div class="row">
+							 <div class="col-md-9 col-sm-12">
+											 <form action="#" method="POST" class="log-reg">
+												 <div class="log-reg-cont">
+													 <h1>Welcome</h1>
+													 <br />
+													 <span class="inp-err"><?php echo $status; ?></span>
+													 <input type="text" name="login" placeholder="Login" value="" />
+													 <br />
+													 <br />
+													 <input type="password" name="passwd" placeholder="Password" value="" />
+													 <br />
+													 <input type="submit" name="submit" value="Enter to GAME!" />
+													 <a class="log-create" href="register.php">Create Account<a/>
+												 </div>
+											 </form>
+							 </div>
+					 </div>
+			 </div>
+	 </section>
 <script src="js/my.js"></script>
-  <script>
-    //var tree = document.getElementsByClassName('wrap')[0];
-   // new TreeDragZone(tree);
-   // new TreeDropTarget(tree);
-
-    // DragManager.onDragCancel = function(dragObject) {
-    //   dragObject.avatar.rollback();
-    // };
-    // DragManager.onDragEnd = function(dragObject, dropElem) {
-    //   dropElem.classList.add('ok');
-    // };
-  </script>
 </body>
 </html>
