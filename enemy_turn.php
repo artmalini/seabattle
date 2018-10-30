@@ -28,7 +28,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="js/my.js"></script>
 </head>
-</head>
 <body class="enemy_turn board-ships">
 <?php
 $pl_game = $_SESSION['player'];
@@ -46,7 +45,7 @@ $pl_enemy = $_SESSION['enemy'];
 				$dragg = 1;
 				$mas = $pl_game->getShips();
 				$view_attack = $pl_enemy->getAttackCoords();
-				$count = count($mas) ? count($mas) : 0;
+				//$count = count($mas) ? count($mas) : 0;
 				$hit = null;
 
 				if ($mas > 0) {
@@ -55,7 +54,7 @@ $pl_enemy = $_SESSION['enemy'];
 					for ($i=1; $i < 11; $i++) {
 						echo '<tr>';
 						for ($j=1; $j < 11; $j++) {
-							for ($k=0; $k < $count; $k++) {
+							for ($k=0; $k < 10; $k++) {
 								if ($mas[$k] && $mas[$k]->getNbr()[0] == $nbr) {
 									$find = 1;
 									if ($mas[$k]->getStay() == 'horizontal') {

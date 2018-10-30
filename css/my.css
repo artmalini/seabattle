@@ -365,43 +365,6 @@ th, td {
     padding-left: 10px;
 }
 
-@media all and (max-width: 780px) {
-	.log-reg {
-		margin-top: 50%;
-	}
-	.board-fight .container {
-		padding-left: 0;
-	}
-	.table-wrap {
-		margin-top: 0;
-	}
-	.rule-wrap {
-		position: relative;
-		width: 512px;
-    	height: 80px;
-    	margin: auto;
-    	background-color: #120c06;
-   		opacity: .9;
-	}	
-}
-
-@media all and (min-width: 781px) {
-	.log-reg {
-		margin-top: 40%;
-		margin-left: 30%;		
-	}
-	.table-wrap {
-		margin-top: 15%;
-	}
-	.rule-wrap {
-		position: relative;
-		width: 512px;
-    	height: 80px;
-    	margin: auto;
-    	background-color: #120c06;
-   		opacity: .9;
-	}	
-}
 
 
 .centr-msg {
@@ -651,12 +614,12 @@ z-index: 1001;
 	color: #2d2a2a;
 }
 .player_hit h2 {
-	top: 50%;
+	top: 30%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	position: absolute;
 	margin: 0;
-	font-size: 3vw;
+	font-size: 25px;
 	font-weight: 900;
 	text-transform: uppercase;
 }
@@ -775,4 +738,56 @@ z-index: 1001;
 .next_cancel:hover {
 	opacity: .8;
 	cursor: pointer;
+}
+
+
+@media all and (max-width: 780px) {
+    .log-reg {
+        margin-top: 50%;
+    }
+    .board-fight .container {
+        padding-left: 0;
+    }
+    .table-wrap {
+        margin-top: 0;
+    }
+    .rule-wrap {
+        position: relative;
+        width: 512px;
+        height: 80px;
+        margin: auto;
+        background-color: #120c06;
+        opacity: .9;
+    }
+    /*.ships-dock {
+        width: 33px;
+    }
+    .rule-wrap {
+        width: 103%;
+    }*/
+    .ac-wrapper {
+        z-index: 99;
+    }
+    /*.popup {
+        width: 86%;
+        height: 71%;
+    }*/
+}
+
+@media all and (min-width: 781px) {
+    .log-reg {
+        margin-top: 40%;
+        margin-left: 30%;       
+    }
+    .table-wrap {
+        margin-top: 15%;
+    }
+    .rule-wrap {
+        position: relative;
+        width: 512px;
+        height: 80px;
+        margin: auto;
+        background-color: #120c06;
+        opacity: .9;
+    }   
 }

@@ -46,7 +46,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
-</head>
 <body class="main-board">
 
 
@@ -56,7 +55,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-9 col-sm-12">
-					<form action="#" method="POST" class="log-reg">
+					<form action="/register.php" method="POST" class="log-reg">
 					  <div class="log-reg-cont">
 					  	<h1>Register Form</h1>
 					  	<br />
@@ -67,14 +66,13 @@
 						<input type="password" name="passwd" placeholder="Password min 6 symbols" pattern=".{6,17}" value="" />
 						<br />
 						<input type="submit" name="submit" value="Enter to GAME!" />
-						<a class="log-create" href="index.php">back to login<a/>
+						<a class="log-create" href="index.php">back to login</a>
 					  </div>
 					</form>
 			</div>
 		</div>
+	</div>
 </section>
-
-</div>
 <script src="js/my.js"></script>
 </body>
 </html>

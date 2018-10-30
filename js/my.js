@@ -718,8 +718,10 @@ $(document).ready(function () {
 									'</div>'+
 									'<div class="foot_bat_all_ok"></div>'+
 									'<div class="bat_all_ok">shipwreck</div>'+
-								'</div>';
-					$('.table-wrap').prepend(res);
+								'</div>';					
+					setTimeout(function() {
+						$('.table-wrap').prepend(res);
+					}, 2000);
 					setTimeout(function(){
 						window.location.href = '/enemy_turn.php';
 					}, 6000);
@@ -779,7 +781,7 @@ $(document).ready(function () {
 						$('.ac-status').fadeOut(2000);
 						$('.ac-status').remove();
 						window.location.href = '/enemy_turn.php';
-					}, 1500);
+					}, 5000);
 				} else {
 					var str = '<div class="ac-status">'+
 									'<div class="player_miss">'+
@@ -787,11 +789,13 @@ $(document).ready(function () {
 										'<h3>Your turn</h3>'+
 									'</div>'+
 								'</div>';
-					$('.base-tmp').append(str);
+					setTimeout(function() {
+						$('.base-tmp').append(str);
+					}, 2000);
 					setTimeout(function(){
 						$('.player_miss h3').animate({'padding-top': '60px'}).fadeOut();
 						window.location.href = '/player_turn.php';
-					}, 1500);
+					}, 3000);
 					//console.log(myobj);
 				}
 			}

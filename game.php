@@ -6,6 +6,7 @@
 	require_once "class/Cruiser.class.php";
 	require_once "class/Destroyer.class.php";
 	require_once "class/Game.class.php";
+	require_once "enemy_fleet.php";
 
 	if (session_status() === PHP_SESSION_NONE) {
 		session_start(); 
@@ -28,13 +29,12 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Game</title>
 	<link rel="stylesheet" href="css/my.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
   	<script src="js/jquery.ui.touch-punch.min.js"></script>
-</head>
 </head>
 <body class="board-fight board-ships">
 
@@ -43,17 +43,6 @@
 		<div class="row">
 				<div class="col-md-12 col-sm-12">
 					<div class="table-wrap">
-						<div class="all_status">							
-						<div class="all_faq">
-							<p>Before play begins, you should secretly arranges their ships on their primary grid. Each ship occupies a number of consecutive squares on the grid, arranged either horizontally or vertically. The number of squares for each ship is determined by the type of the ship. The ships cannot overlap, each ship should be stay between on one empty cell each other.</p>
-							<p>Just click on nose ship to change direct position, or hold and drag to new location.</p>
-							<div class="prev"></div>
-							<p>After all push green save button and then START button</p>
-						</div>
-							<div class="foot_all_ok">
-								<div class="all_ok">Ok</div>
-							</div>
-						</div>
 						<table>
 								<tbody><tr><td class="has_ship yes " data-nbr="1">
 													<div class="ships-dock" data-pos_y="1" data-pos_x="1">
@@ -695,12 +684,12 @@
 												</div>
 											</td></tr></tbody>
 						</table>
-				<div class="rule-wrap">
-					<div class="act faq"></div>
-					<div class="act save_fleet"></div>
-					<div class="act start_game"></div>
-					<div class="act exit_game"></div>
-				</div>
+						<div class="rule-wrap">
+							<div class="act faq"></div>
+							<div class="act save_fleet"></div>
+							<div class="act start_game"></div>
+							<div class="act exit_game"></div>
+						</div>
 					</div>
 				</div>
 		</div>
@@ -708,133 +697,13 @@
 </section>
 
 <?php 
-$ens = Array
-(
-    Array
-        (
-            'type' => 'cruiser',
-            'stay' => 'horizontal',
-            'size' => 3,
-            'nbr' => Array
-                (
-                    3,
-                    5,
-                    4,
-                ),
 
-        ),
-    Array
-        (
-            'type' => 'cutter',
-            'stay' => 'horizontal',
-            'size' => 1,
-            'nbr'=> Array
-                (
-                    9
-                ),
 
-        ),
-    Array
-        (
-            'type' => 'cutter',
-            'stay' => 'vertical',
-            'size' => 1,
-            'nbr'=> Array
-                (
-                    31
-                ),
-
-        ),
-    Array
-        (
-            'type' => 'aircraft',
-            'stay' => 'vertical',
-            'size' => 4,
-            'nbr'  => Array
-                (
-                   35,
-                   65,
-                   55,
-                   45
-                )
-
-        ),
-    Array
-        (
-            'type' => 'cutter',
-            'stay' => 'horizontal',
-            'size' => 1,
-            'nbr'=> Array
-                (
-                    43
-                ),
-
-        ),
-    Array
-        (
-            'type' => 'cruiser',
-            'stay' => 'vertical',
-            'size' => 3,
-            'nbr'=> Array
-                (
-                    51,
-                    71,
-                    61
-                ),
-
-        ),
-    Array
-        (
-            'type' => 'destroyer',
-            'stay' => 'vertical',
-            'size' => 2,
-            'nbr'=> Array
-                (
-                    60,
-                    70
-                ),
-
-        ),
-    Array
-        (
-            'type' => 'cutter',
-            'stay' => 'horizontal',
-            'size' => 1,
-            'nbr'=> Array
-                (
-                    90
-                ),
-
-        ),
-    Array
-        (
-            'type' => 'destroyer',
-            'stay' => 'horizontal',
-            'size' => 2,
-            'nbr'=> Array
-                (
-                   91,
-                   92
-                ),
-
-        ),
-    Array
-        (
-            'type' => 'destroyer',
-            'stay' => 'horizontal',
-            'size' => 2,
-            'nbr'=> Array
-                (
-                    94,
-                    95
-                ),
-
-        ),
-);
+$rnd = rand(0, 5);
 
 	$pl_enemy = $_SESSION['enemy'];
 	$build = array();
-	foreach ($ens as $key => $mass) {
+	foreach ($ens[$rnd] as $key => $mass) {
 		foreach ($mass as $m_key => $m_value) {
 				$build[$m_key] = $m_value;
 		}
@@ -843,6 +712,7 @@ $ens = Array
 		unset($build);
 	}
 
+//print_r($pl_enemy->getShips());
 //echo $pl_game->totalShips();
 //echo $pl_enemy->totalShips();
 
@@ -922,7 +792,6 @@ $ens = Array
 	if (sessionStorage.getItem("ship")) {
 		sessionStorage.removeItem("ship");
 	}
-</script>
 </script>
 </body>
 </html>

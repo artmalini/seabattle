@@ -24,9 +24,8 @@
 	<link rel="stylesheet" href="css/my.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<script src="js/jquery.ui.touch-punch.min.js"></script>
 	<script src="js/my.js"></script>
-
-</head>
 </head>
 <body class="player_turn">
 <?php
@@ -45,7 +44,7 @@ $pl_enemy = $_SESSION['enemy'];
 				$dragg = 1;
 				$mas = $pl_enemy->getShips();
 				$view_attack = $pl_game->getAttackCoords();
-				$count = count($mas) ? count($mas) : 0;
+				//$count = count($mas) ? count($mas) : 0;
 				$hit = null;
 
 				if ($mas > 0) {
@@ -54,7 +53,7 @@ $pl_enemy = $_SESSION['enemy'];
 					for ($i=1; $i < 11; $i++) {
 						echo '<tr>';
 						for ($j=1; $j < 11; $j++) {
-							for ($k=0; $k < $count; $k++) {
+							for ($k=0; $k < 10; $k++) {
 								if ($mas[$k] && $mas[$k]->getNbr()[0] == $nbr) {
 									$find = 1;
 									if ($mas[$k]->getStay() == 'horizontal') {
@@ -122,6 +121,7 @@ $pl_enemy = $_SESSION['enemy'];
 
 
 <?php 
+//echo $count;
 //print_r($view_attack);
 
 //echo $pl_game->totalShips() . '</br>';

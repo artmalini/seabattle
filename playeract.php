@@ -29,8 +29,8 @@
 			$fleet = $pl_game->getShips();
 		}
 
-		$count = count($fleet);
-		for ($i=0; $i < $count; $i++) {
+		//$count = count($fleet);
+		for ($i=0; $i < 10; $i++) {
 			if ($fleet[$i]) {
 				$arr = $fleet[$i]->getNbr();
 				foreach ($arr as $key) {
